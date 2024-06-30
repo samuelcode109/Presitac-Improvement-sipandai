@@ -28,14 +28,14 @@ def connect_to_google_sheets(spreadsheet_name, sheet_name=None):
     ]
 
     # Load credentials from environment variable
-    creds_json = os.environ.get('GOOGLE_SHEETS_CREDENTIALS_SITAC')
+    creds_json = os.environ.get('GOOGLE_SHEETS_CREDENTIALS_SITAC1')
     if not creds_json:
-        raise ValueError("Environment variable 'GOOGLE_SHEETS_CREDENTIALS_SITAC' is not set or is empty")
+        raise ValueError("Environment variable 'GOOGLE_SHEETS_CREDENTIALS_SITAC1' is not set or is empty")
 
     try:
         creds_dict = json.loads(creds_json)
     except json.JSONDecodeError as e:
-        raise ValueError(f"Error decoding JSON from 'GOOGLE_SHEETS_CREDENTIALS_SITAC': {e}")
+        raise ValueError(f"Error decoding JSON from 'GOOGLE_SHEETS_CREDENTIALS_SITAC1': {e}")
 
     # Verify the credentials dictionary
     required_keys = [
