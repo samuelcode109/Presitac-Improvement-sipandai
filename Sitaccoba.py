@@ -434,10 +434,9 @@ def main():
 
     if not st.session_state.login_state:
 
-        logo2tbg_url = 'https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/tbg2.png'
-        logotbg_url = 'https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/tbg.png'
+        logotbg_url = 'https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/tbg2.png'
         logoorang_url = 'https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/logo2.png'
-        tbglogo = Image.open(BytesIO(requests.get(logo2tbg_url).content))
+        tbglogo = Image.open(BytesIO(requests.get(logotbg_url).content))
         logoorang = Image.open(BytesIO(requests.get(logoorang_url).content))
 
         kolom3,kolom4=st.columns([1,3])
@@ -469,7 +468,8 @@ def main():
     else:
         with st.sidebar:
              # Load the image/logo
-            logo_image = Image.open(BytesIO(requests.get(logotbg_url).content))
+            logo_url = 'https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/tbg.png'
+            logo_image = Image.open(BytesIO(requests.get(logo_url).content))
 
             # Display the image/logo in the sidebar
             st.sidebar.image(logo_image)
