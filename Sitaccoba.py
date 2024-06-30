@@ -9,6 +9,7 @@ from io import BytesIO
 import zipfile
 from streamlit_option_menu import option_menu
 from PIL import Image
+from io import BytesIO
 import plotly.graph_objects as go
 import plotly.express as px
 import os
@@ -432,10 +433,10 @@ def main():
 
     if not st.session_state.login_state:
 
-        logotbg_path='https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/tbg2.png'
-        logoorang_path='https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/logo2.png'
-        tbglogo = Image.open(logotbg_path)
-        logoorang = Image.open(logoorang_path)
+        logotbg_url = 'https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/tbg2.png'
+        logoorang_url = 'https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/logo2.png'
+        tbglogo = Image.open(BytesIO(requests.get(logotbg_url).content))
+        logoorang = Image.open(BytesIO(requests.get(logoorang_url).content))
 
         kolom3,kolom4=st.columns([1,3])
         with kolom3:
