@@ -392,8 +392,8 @@ def replace_placeholders_in_text(text, data_row):
     return text
 
 # Fungsi untuk membuat dokumen Word berdasarkan template
-def create_word_document(template_path, data_row):
-    doc = Document(template_path)
+def create_word_document(template_url, data_row):
+    doc = Document(template_url)
     
     # Ganti placeholder di luar tabel
     for paragraph in doc.paragraphs:
@@ -882,7 +882,8 @@ def main():
 
             # Upload file Excel
             uploaded_file = st.file_uploader("Choose an Excel file", type="xlsx")
-            template_path = 'https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/tssr1.docx' # Path ke template Word Anda
+            template_url = 'https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/tssr1.docx' # URL ke template Word Anda
+
 
             if uploaded_file is not None:
                 df = load_excel(uploaded_file)
@@ -895,7 +896,7 @@ def main():
                     with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED) as zip_file:
                         for idx, row in df.iterrows():
                             # Buat dokumen Word untuk setiap baris
-                            doc = create_word_document(template_path, row)
+                            doc = create_word_document(template_url, row)
                             doc_buffer = BytesIO()
                             doc.save(doc_buffer)
                             doc_buffer.seek(0)
