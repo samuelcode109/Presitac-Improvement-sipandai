@@ -11,20 +11,22 @@ from streamlit_option_menu import option_menu
 from PIL import Image
 import plotly.graph_objects as go
 import plotly.express as px
+import os
+import json
 
-# Path ke berkas JSON kredensial proyek
-cred_path = 'https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/sitacsulawesi-89fc431b56f1.json'
-
+#=====================================================================================================
 # Nama spreadsheet
-# Nama spreadsheet
-spreadsheet_name = 'SITACSULAWESI'  # Tambahkan ini
+spreadsheet_name = 'SITACSULAWESI'
 
 # Fungsi untuk menghubungkan ke Google Sheets
-def connect_to_google_sheets(cred_path, spreadsheet_name, sheet_name=None):
+def connect_to_google_sheets(spreadsheet_name, sheet_name=None):
     scope = ['https://spreadsheets.google.com/feeds',
              'https://www.googleapis.com/auth/drive']
 
-    creds = ServiceAccountCredentials.from_json_keyfile_name(cred_path, scope)
+    # Load credentials from environment variable
+    creds_dict = json.loads(os.environ.get('GOOGLE_SHEETS_CREDENTIALS_SITAC'))
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+    
     client = gspread.authorize(creds)
 
     # Buka spreadsheet berdasarkan nama
@@ -34,6 +36,7 @@ def connect_to_google_sheets(cred_path, spreadsheet_name, sheet_name=None):
         return spreadsheet.worksheet(sheet_name)
     else:
         return spreadsheet.sheet1  # Menggunakan sheet pertama sebagai default
+#=====================================================================================================
 
 # Fungsi untuk menampilkan data berdasarkan Site ID Operator
 def show_tssr_data(sheet, site_id_operator):
@@ -480,7 +483,7 @@ def main():
         if menu == "Show TSSR":
             site_id_operator = st.text_input("Enter Site ID Operator")
             # Menghubungkan ke Google Sheets
-            sheet = connect_to_google_sheets(cred_path, spreadsheet_name, sheet_name="TSSR")
+            sheet = connect_to_google_sheets(spreadsheet_name, sheet_name="TSSR")
             if st.button("Search"):
                 show_tssr_data(sheet, site_id_operator)
             
@@ -631,14 +634,14 @@ def main():
                 
         elif menu == "Progress Monitoring":
             # Menghubungkan ke sheet "Progress"
-            sheet = connect_to_google_sheets(cred_path, spreadsheet_name, sheet_name="Progress")
+            sheet = connect_to_google_sheets(spreadsheet_name, sheet_name="Progress")
             show_progress_dashboard(sheet)
             
         elif menu == "Input Data":
             st.title("Input Data")
             
             # Menghubungkan ke Google Sheets
-            sheet = connect_to_google_sheets(cred_path, spreadsheet_name, sheet_name="TSSR")
+            sheet = connect_to_google_sheets(spreadsheet_name, sheet_name="TSSR")
             
             site_id_operator = st.text_input("Enter Site ID Operator")
             
