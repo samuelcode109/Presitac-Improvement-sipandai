@@ -22,13 +22,32 @@ spreadsheet_name = 'SITACSULAWESI'
 
 # Fungsi untuk menghubungkan ke Google Sheets
 def connect_to_google_sheets(spreadsheet_name, sheet_name=None):
-    scope = ['https://spreadsheets.google.com/feeds',
-             'https://www.googleapis.com/auth/drive']
+    scope = [
+        'https://spreadsheets.google.com/feeds',
+        'https://www.googleapis.com/auth/drive'
+    ]
 
     # Load credentials from environment variable
-    creds_dict = json.loads(os.environ.get('GOOGLE_SHEETS_CREDENTIALS_SITAC'))
+    creds_json = os.environ.get('GOOGLE_SHEETS_CREDENTIALS_SITAC')
+    if not creds_json:
+        raise ValueError("Environment variable 'GOOGLE_SHEETS_CREDENTIALS_SITAC' is not set or is empty")
+
+    try:
+        creds_dict = json.loads(creds_json)
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Error decoding JSON from 'GOOGLE_SHEETS_CREDENTIALS_SITAC': {e}")
+
+    # Verify the credentials dictionary
+    required_keys = [
+        "type", "project_id", "private_key_id", "private_key", "client_email",
+        "client_id", "auth_uri", "token_uri", "auth_provider_x509_cert_url",
+        "client_x509_cert_url"
+    ]
+    for key in required_keys:
+        if key not in creds_dict:
+            raise ValueError(f"Key '{key}' is missing from the credentials JSON")
+
     creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
-    
     client = gspread.authorize(creds)
 
     # Buka spreadsheet berdasarkan nama
