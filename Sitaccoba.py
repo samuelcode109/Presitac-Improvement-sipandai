@@ -13,7 +13,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 
 # Path ke berkas JSON kredensial proyek
-cred_path = r'D:\TLDP 18\OJT 4 PM Sitac RO Sulawesi\improvement Samuel\sitacsulawesi-89fc431b56f1.json'
+cred_path = 'https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/sitacsulawesi-89fc431b56f1.json'
 
 # Nama spreadsheet
 # Nama spreadsheet
@@ -429,8 +429,8 @@ def main():
 
     if not st.session_state.login_state:
 
-        logotbg_path= r"D:\TLDP 18\OJT 4 PM Sitac RO Sulawesi\improvement Samuel\tbg2.png"
-        logoorang_path= r"D:\TLDP 18\OJT 4 PM Sitac RO Sulawesi\improvement Samuel\logo2.png"
+        logotbg_path='https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/tbg2.png'
+        logoorang_path='https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/logo2.png'
         tbglogo = Image.open(logotbg_path)
         logoorang = Image.open(logoorang_path)
 
@@ -463,7 +463,7 @@ def main():
     else:
         with st.sidebar:
              # Load the image/logo
-            logo_path = r"D:\TLDP 18\OJT 4 PM Sitac RO Sulawesi\improvement Samuel\tbg.png"
+            logo_path = 'https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/tbg.png'
             logo_image = Image.open(logo_path)
 
             # Display the image/logo in the sidebar
@@ -878,7 +878,7 @@ def main():
 
             # Upload file Excel
             uploaded_file = st.file_uploader("Choose an Excel file", type="xlsx")
-            template_path = "D:\\coba\\tssr1.docx" # Path ke template Word Anda
+            template_path = 'https://raw.githubusercontent.com/samuelcode109/Presitac-Improvement-sipandai/main/tssr1.docx' # Path ke template Word Anda
 
             if uploaded_file is not None:
                 df = load_excel(uploaded_file)
