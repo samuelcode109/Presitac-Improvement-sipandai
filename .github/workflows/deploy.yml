@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8' # Ganti dengan versi Python yang Anda gunakan
+          python-version: '3.12.3' # Ganti dengan versi Python yang Anda gunakan
 
       - name: Install dependencies
         run: |
@@ -24,7 +24,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Setup Google Sheets credentials
-        run: echo "${{ secrets.GOOGLE_SHEETS_CREDENTIALS_SITAC }}" > credentials.json
+        run: echo "${{ secrets.GOOGLE_SHEETS_CREDENTIALS_SITAC1 }}" > credentials.json
 
       - name: Deploy to Streamlit
         run: streamlit run Sitaccoba.py
