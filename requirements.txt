@@ -9,4 +9,4 @@ streamlit_option_menu
 Pillow
 plotly
 requests
-streamlit_gsheets
+st-gsheets-connection
