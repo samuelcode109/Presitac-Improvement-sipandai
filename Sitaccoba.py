@@ -21,24 +21,21 @@ import json
 # Nama spreadsheet
 spreadsheet_name = 'SITACSULAWESI'
 
+# Ambil konfigurasi dari file TOML
+config = st.experimental_get_config()
+gsheets_config = config["gsheets"]
+
 # Fungsi untuk menghubungkan ke Google Sheets
-def connect_to_google_sheets(spreadsheet_name, sheet_name=None):
+def connect_to_google_sheets(spreadsheet_name, sheet_name):
     scope = [
         'https://spreadsheets.google.com/feeds',
         'https://www.googleapis.com/auth/drive'
     ]
 
-    # Load credentials from environment variable
-    creds_json = os.environ.get('GOOGLE_SHEETS_CREDENTIALS_SITAC1')
-    if not creds_json:
-        raise ValueError("Environment variable 'GOOGLE_SHEETS_CREDENTIALS_SITAC1' is not set or is empty")
+    # Load credentials from TOML configuration
+    creds_dict = gsheets_config  # Already loaded from TOML
 
-    try:
-        creds_dict = json.loads(creds_json)
-    except json.JSONDecodeError as e:
-        raise ValueError(f"Error decoding JSON from 'GOOGLE_SHEETS_CREDENTIALS_SITAC1': {e}")
-
-    # Verify the credentials dictionary
+    # Verify the credentials dictionary (optional, as TOML should be correctly formatted)
     required_keys = [
         "type", "project_id", "private_key_id", "private_key", "client_email",
         "client_id", "auth_uri", "token_uri", "auth_provider_x509_cert_url",
@@ -46,7 +43,7 @@ def connect_to_google_sheets(spreadsheet_name, sheet_name=None):
     ]
     for key in required_keys:
         if key not in creds_dict:
-            raise ValueError(f"Key '{key}' is missing from the credentials JSON")
+            raise ValueError(f"Key '{key}' is missing from the credentials TOML")
 
     creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
     client = gspread.authorize(creds)
@@ -54,10 +51,13 @@ def connect_to_google_sheets(spreadsheet_name, sheet_name=None):
     # Buka spreadsheet berdasarkan nama
     spreadsheet = client.open(spreadsheet_name)
 
-    if sheet_name:
-        return spreadsheet.worksheet(sheet_name)
-    else:
-        return spreadsheet.sheet1  # Menggunakan sheet pertama sebagai default
+    # Pilih worksheet berdasarkan nama
+    try:
+        worksheet = spreadsheet.worksheet(sheet_name)
+    except gspread.exceptions.WorksheetNotFound:
+        raise ValueError(f"Worksheet '{sheet_name}' tidak ditemukan di spreadsheet '{spreadsheet_name}'")
+
+    return worksheet
 #=====================================================================================================
 
 # Fungsi untuk menampilkan data berdasarkan Site ID Operator
