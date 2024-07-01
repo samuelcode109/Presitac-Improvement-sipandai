@@ -21,14 +21,6 @@ import json
 # Nama spreadsheet
 spreadsheet_name = 'SITACSULAWESI'
 
-# Ambil konfigurasi dari file TOML
-config = st.experimental_get_config()
-gsheets_config = config["gsheets"]
-
-# Fungsi untuk menghubungkan ke Google Sheets
-# Nama spreadsheet
-spreadsheet_name = 'SITACSULAWESI'
-
 # Fungsi untuk menghubungkan ke Google Sheets
 def connect_to_google_sheets(spreadsheet_name, sheet_name=None):
     scope = [
